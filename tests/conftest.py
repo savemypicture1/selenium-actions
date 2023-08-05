@@ -1,5 +1,6 @@
 import pytest
 from selenium import webdriver
+from selenium.webdriver.support.wait import WebDriverWait
 
 
 @pytest.fixture
@@ -21,3 +22,8 @@ def actions_driver(common_driver):
 def waits_driver(common_driver):
     common_driver.get("https://chercher.tech/practice/explicit-wait-sample-selenium-webdriver")
     yield common_driver
+
+
+@pytest.fixture
+def wait(waits_driver):
+    yield WebDriverWait(waits_driver, 15)
