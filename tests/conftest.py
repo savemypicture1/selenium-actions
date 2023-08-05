@@ -1,12 +1,29 @@
 import pytest
 from selenium import webdriver
+from selenium.webdriver.support.wait import WebDriverWait
 
 
 @pytest.fixture
-def driver():
+def common_driver():
     driver = webdriver.Chrome()
     driver.maximize_window()
-    driver.implicitly_wait(10)
-    driver.get("https://the-internet.herokuapp.com/?ref=hackernoon.com")
     yield driver
     driver.quit()
+
+
+@pytest.fixture
+def actions_driver(common_driver):
+    common_driver.implicitly_wait(10)
+    common_driver.get("https://the-internet.herokuapp.com/")
+    yield common_driver
+
+
+@pytest.fixture
+def waits_driver(common_driver):
+    common_driver.get("https://chercher.tech/practice/explicit-wait-sample-selenium-webdriver")
+    yield common_driver
+
+
+@pytest.fixture
+def wait(waits_driver):
+    yield WebDriverWait(waits_driver, 15)
